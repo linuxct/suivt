@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import space.linuxct.suivt.R
+import space.linuxct.suivt.SuivtApplication
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        var a = SuivtApplication.preferenceStore.getFromStore("", "")
 
         val ip = packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
         for (item in ip){

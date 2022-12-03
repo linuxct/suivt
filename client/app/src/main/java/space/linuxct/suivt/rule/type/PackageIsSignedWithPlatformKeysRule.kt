@@ -4,8 +4,8 @@ import space.linuxct.suivt.model.MatchStatusEnum
 import space.linuxct.suivt.model.SeverityResultEnum
 import space.linuxct.suivt.rule.IDetectionRule
 
-class PackageIsSignedWithPlatformKeysRule : IDetectionRule {
-    override fun isMatch(packageName: String): MatchStatusEnum {
+class PackageIsSignedWithPlatformKeysRule : BaseRule(), IDetectionRule {
+    override fun isMatch(packageName: String): List<MatchStatusEnum> {
         TODO("Not yet implemented")
     }
 
