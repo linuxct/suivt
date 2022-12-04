@@ -8,6 +8,9 @@ import space.linuxct.suivt.model.SeverityResultEnum
 import space.linuxct.suivt.rule.IDetectionRule
 
 abstract class BaseRule : IDetectionRule {
+    lateinit var configurationModel: RuleConfigurationModel
+    fun isConfigurationModelInitialized() = ::configurationModel.isInitialized
+
     override fun configureRule(ruleConfigurationModel: RuleConfigurationModel) {
         configurationModel = ruleConfigurationModel
     }
@@ -18,6 +21,5 @@ abstract class BaseRule : IDetectionRule {
 
     companion object {
         @JvmStatic var packageManager: PackageManager = SuivtApplication.instance.packageManager
-        internal lateinit var configurationModel: RuleConfigurationModel
     }
 }

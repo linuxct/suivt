@@ -4,19 +4,34 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import kotlinx.coroutines.*
+import org.koin.android.ext.android.inject
+import org.koin.androidx.scope.ScopeActivity
 import space.linuxct.suivt.R
 import space.linuxct.suivt.SuivtApplication
 import space.linuxct.suivt.rule.RuleEngine
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ScopeActivity() {
+    private val ruleEngine: RuleEngine by inject()
+
+    private suspend fun callFirstRule(_ruleEngine: RuleEngine){
+        withContext(Dispatchers.IO){
+            _ruleEngine.testFirstRule()
+        }
+
+        withContext(Dispatchers.IO){
+            _ruleEngine.testAgainFirstRule()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        runOnUiThread {
-            RuleEngine().testFirstRule()
+        val _ruleEngine = ruleEngine
+        MainScope().launch {
+            callFirstRule(_ruleEngine)
         }
-
 
 //        var a = SuivtApplication.preferenceStore.getFromStore("", "")
 //
