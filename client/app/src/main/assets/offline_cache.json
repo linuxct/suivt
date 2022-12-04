@@ -1,11 +1,34 @@
 {
-  "rulesDefinition": [
+  "rulesConfiguration": [
     {
-      "ruleName": "",
-      "severity": ""
+      "order": 1,
+      "ruleName": "PackageIsUserOrSystemRule",
+      "actions": ["PASS_TO_NEXT_STAGE"],
+      "severity": "NONE"
     },
     {
-
+      "order": 2,
+      "ruleName": "PackageIsSignedWithPlatformKeysRule",
+      "actions": ["PASS_TO_NEXT_STAGE"],
+      "severity": "NONE"
+    },
+    {
+      "order": 3,
+      "ruleName": "PackageDeclaresSystemUidRule",
+      "actions": ["PASS_TO_NEXT_STAGE", "ASSESS_SEVERITY"],
+      "severity": "LOW"
+    },
+    {
+      "order": 4,
+      "ruleName": "PackageIsInstalledFromTrustedSourceRule",
+      "actions": ["PASS_TO_NEXT_STAGE", "ASSESS_SEVERITY"],
+      "severity": "MEDIUM"
+    },
+    {
+      "order": 5,
+      "ruleName": "PackageIsSystemAppUpdateRule",
+      "actions": ["ASSESS_SEVERITY"],
+      "severity": "HIGH"
     }
   ]
 }
