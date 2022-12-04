@@ -14,7 +14,7 @@ class PackageIsUserOrSystemRule : BaseRule(), IDetectionRule {
         }.applicationInfo
 
         // If the application is a system application, skip it...
-        if ((appInfo.flags and ApplicationInfo.FLAG_SYSTEM) <= 0){
+        if ((appInfo.flags and ApplicationInfo.FLAG_SYSTEM) > 0){
             result = false
         }
 
