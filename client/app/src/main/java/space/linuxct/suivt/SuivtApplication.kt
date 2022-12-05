@@ -4,35 +4,38 @@ import androidx.multidex.MultiDexApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import space.linuxct.suivt.preference.SuivtPreferenceStore
+import space.linuxct.suivt.store.*
 import space.linuxct.suivt.rule.RuleEngine
-import space.linuxct.suivt.rule.type.BaseRule
-import space.linuxct.suivt.rule.type.PackageDeclaresSystemUidRule
-import space.linuxct.suivt.rule.type.PackageIsUserOrSystemRule
+import space.linuxct.suivt.rule.type.*
 
 class SuivtApplication : MultiDexApplication() {
     companion object {
-        @JvmStatic lateinit var preferenceStore: SuivtPreferenceStore
         @JvmStatic lateinit var instance: SuivtApplication
     }
 
     private val appModules = listOf(
         module {
             single { RuleEngine() }
-            factoryOf<PackageIsUserOrSystemRule> {
-                PackageIsUserOrSystemRule()
-            } bind BaseRule::class
-            factoryOf<PackageDeclaresSystemUidRule> {
-                PackageDeclaresSystemUidRule()
-            } bind BaseRule::class
+            factory { PackageDeclaresSystemUidRule() } bind BaseRule::class
+            factory { PackageIsInstalledFromTrustedSourceRule() } bind BaseRule::class
+            factory { PackageIsSignedWithPlatformKeysRule() } bind BaseRule::class
+            factory { PackageIsSystemAppUpdateRule() } bind BaseRule::class
+            factory { PackageIsUserOrSystemRule() } bind BaseRule::class
+        },
+        //ToDo: Test if the new module declaration works
+        module {
+            single { SuivtDataStore() } bind IDataStore::class
+            scope<SuivtDataStore> {
+                scoped { SharedPreferenceDataStore(get()) } bind IDataStore::class
+                scoped { MemoryDataStore(get()) } bind IDataStore::class
+                scoped { OfflineCacheDataStore(get()) } bind IDataStore::class
+            }
         }
     )
 
     override fun onCreate() {
-        preferenceStore = SuivtPreferenceStore().init(context=this)
         instance = this
         super.onCreate()
 

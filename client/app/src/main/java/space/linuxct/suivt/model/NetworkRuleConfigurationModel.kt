@@ -1,5 +1,8 @@
 package space.linuxct.suivt.model
 
+import kotlinx.serialization.*
+
+@Serializable
 data class NetworkRuleConfigurationModel (
     var order: Int,
     var ruleName: String,

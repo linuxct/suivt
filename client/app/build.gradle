@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
@@ -32,12 +33,16 @@ android {
 }
 
 dependencies {
+
     implementation "io.insert-koin:koin-core:3.2.2"
     implementation "io.insert-koin:koin-android:3.3.0"
     implementation "io.insert-koin:koin-android-compat:3.3.0"
     implementation "io.insert-koin:koin-androidx-workmanager:3.3.0"
     implementation "io.insert-koin:koin-androidx-navigation:3.3.0"
     implementation "io.insert-koin:koin-ktor:3.2.2"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:1.4.1"
 
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2"
